@@ -1,0 +1,6 @@
+{
+    "react": {
+        "outputDirectory": "react",
+        "repository": "https://github.com/at-ishikawa/react-template.git"
+    }
+}
