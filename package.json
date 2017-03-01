@@ -1,0 +1,25 @@
+{
+  "name": "project-client",
+  "version": "0.0.2",
+  "description": "Project initialize tools",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/at-ishikawa/project-client.git"
+  },
+  "keywords": [
+    "project",
+    "initialize"
+  ],
+  "bin": {
+    "project-client": "bin/project-client.js"
+  },
+  "author": "A. Ishikawa <a.ishikawa810@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/at-ishikawa/project-client/issues"
+  },
+  "homepage": "https://github.com/at-ishikawa/project-client#readme"
+}

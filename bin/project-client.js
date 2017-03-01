@@ -1,7 +1,8 @@
 #! /usr/bin/env node
+"use strict";
 
 const childProcess = require('child_process');
-const projectConfigs = require('./projectConfigs.json');
+const projectConfigs = require('../projectConfigs.json');
 
 const subcommand = process.argv[2];
 const projectType = process.argv[3];
