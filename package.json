@@ -1,6 +1,6 @@
 {
   "name": "project-client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Project initialize tools",
   "scripts": {
     "lint": "eslint --fix bin",
@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/at-ishikawa/project-client#readme",
   "dependencies": {
-    "jsonfile": "^2.4.0"
+    "jsonfile": "^2.4.0",
+    "rmdir": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^3.16.1"
