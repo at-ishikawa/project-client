@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/at-ishikawa/project-client/issues"
   },
-  "homepage": "https://github.com/at-ishikawa/project-client#readme"
+  "homepage": "https://github.com/at-ishikawa/project-client#readme",
+  "dependencies": {
+    "jsonfile": "^2.4.0"
+  }
 }

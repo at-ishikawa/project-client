@@ -1,12 +1,21 @@
 #! /usr/bin/env node
 "use strict";
 
+const os = require('os');
 const childProcess = require('child_process');
-const projectConfigs = require('../projectConfigs.json');
+const fs = require('fs');
+const jsonfile = require('jsonfile');
 
 const subcommand = process.argv[2];
 const projectType = process.argv[3];
 let outputDirectory = process.argv[4];
+
+var projectConfigs = require('../projectConfigs.json');
+const userConfigFilePath = os.homedir() + '/.project-client.json';
+if (fs.existsSync(userConfigFilePath)) {
+    var userConfig = jsonfile.readFileSync(userConfigFilePath);
+    projectConfigs = Object.assign({}, projectConfigs, userConfig);
+}
 
 if (subcommand != 'create') {
     console.error(`Error: subcommand must be create`);
