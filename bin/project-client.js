@@ -43,10 +43,17 @@ if (!outputDirectory && projectConfig.outputDirectory) {
 try {
     const command = "git " + [
         'clone',
+        '--depth=1',
         repository,
         outputDirectory
     ].join(" ");
     childProcess.execSync(command);
+    const rmdir = require('rmdir');
+    rmdir(outputDirectory + '/.git', (error) => {
+        if (error) {
+            console.error(error);
+        }
+    });
 } catch (e) {
     console.error(`${e.toString()}`);
     return;
