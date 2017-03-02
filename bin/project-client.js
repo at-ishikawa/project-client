@@ -46,7 +46,7 @@ try {
         repository,
         outputDirectory
     ].join(" ");
-    const result = childProcess.execSync(command);
+    childProcess.execSync(command);
 } catch (e) {
     console.error(`${e.toString()}`);
     return;
