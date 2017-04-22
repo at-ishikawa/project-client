@@ -5,7 +5,7 @@
   "scripts": {
     "build": "babel -d lib src",
     "watch": "babel -w -d lib src",
-    "lint": "eslint --fix bin",
+    "lint": "eslint --fix src bin",
     "release": "npm run lint && npm run build && npm publish ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -20,7 +20,7 @@ export default class Command {
 
     execute() {
         try {
-            let { subcommand, projectType, outputDirectory } = this.parseArguments();
+            let { projectType, outputDirectory } = this.parseArguments();
 
             const projectConfig = this.projectConfigs[projectType];
             const repository = projectConfig.repository;
