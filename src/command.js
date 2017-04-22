@@ -10,7 +10,7 @@ export default class Command {
     }
 
     readConfig() {
-        this.projectConfigs = require('../projectConfigs.json');
+        this.projectConfigs = require('../configs.json');
         const userConfigFilePath = os.homedir() + '/.project-client.json';
         if (fs.existsSync(userConfigFilePath)) {
             const userConfig = jsonfile.readFileSync(userConfigFilePath);
