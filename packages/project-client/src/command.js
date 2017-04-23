@@ -32,9 +32,12 @@ export default class Command {
         this.plugins = this.getPlugins(projectConfig.plugins);
         const repository = projectConfig.repository;
 
-        if (!outputDirectory && projectConfig.outputDirectory) {
-            // TODO change output directory to project type unless outputDirectory is not specified in config
-            outputDirectory = projectConfig.outputDirectory;
+        if (!outputDirectory) {
+            if (projectConfig.outputDirectory) {
+                outputDirectory = projectConfig.outputDirectory;
+            } else {
+                outputDirectory = projectType;
+            }
         }
 
         this.preprocess();

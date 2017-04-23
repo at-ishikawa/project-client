@@ -1,24 +1,46 @@
-# Projctor
+# Project Client
 
-1. Install
+## Getting Started
+
+1. Install a cli and some plugins that will be used.
 ```
-$ npm install -g project-client
+$ npm install -g project-client project-client-plugin-[name]
 ```
 
-2. Configure to create for a project.
-Wrote ~/.project-client.json
+2. Configure a base project to create projects by writing ~/.project-client.json.
+The format of configuration is following:
 ```
 {
-    "project": {
+    "project_type1": {
+        "plugins": [
+            "plugin1",
+            "plugin2"
+        ],
         "outputDirectory": "defaultOutputDirectory",
         "repository": "https://github.com/at-ishikawa/react-template.git"
+    },
+    "project_type2": {
     }
 }
 ```
 
-3. Create a project
+The detail for each configuration for projects are:
+- plugins <string | array> (required) :: plugins for projects.
+- outputDirectory <string> (optional) :: a directory's name to create a project unless output directory is not specified when a command runs.
+  If outputDirectory is not specified, project_type1 will be the name of a directory.
+- repository <string> (required) :: a git repository to download to create a project
+
+3. Plugin configurations
+If plugins are required, plugins are also required to install.
+Also, set `NODE_PATH` to load plugins from project-client cli.
 ```
-$ project-client create [project_type]
+export NODE_PATH=`npm root -g`
 ```
 
-- project_type can be one of *react*
+4. Create a project
+```
+$ project-client create [project type] [output_directory]
+```
+
+- project_type can be one of *react*, *laravel* or projects which is configured in ~/.project-client.json
+- output_directory is optional.
