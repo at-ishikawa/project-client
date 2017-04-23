@@ -2,6 +2,7 @@
   "name": "project-client",
   "version": "0.0.5",
   "description": "Project initialize tools",
+  "main": "lib/index.js",
   "scripts": {
     "build": "babel -d lib src",
     "watch": "babel -w -d lib src",

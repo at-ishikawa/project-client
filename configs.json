@@ -1,6 +1,15 @@
 {
     "react": {
+        "plugins": "node",
         "outputDirectory": "react",
         "repository": "https://github.com/at-ishikawa/react-template.git"
+    },
+    "laravel": {
+        "plugins": [
+            "php",
+            "node"
+        ],
+        "outputDirectory": "laravel",
+        "repository": "https://github.com/at-ishikawa/laravel.git"
     }
 }

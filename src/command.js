@@ -3,6 +3,8 @@ import childProcess from 'child_process';
 import fs from 'fs';
 import jsonfile from 'jsonfile';
 import rmdir from 'rmdir';
+import process from 'process';
+import Plugin from './plugin';
 
 export default class Command {
     constructor() {
@@ -19,20 +21,37 @@ export default class Command {
     }
 
     execute() {
-        try {
-            let { projectType, outputDirectory } = this.parseArguments();
-
-            const projectConfig = this.projectConfigs[projectType];
-            const repository = projectConfig.repository;
-
-            if (!outputDirectory && projectConfig.outputDirectory) {
-                outputDirectory = projectConfig.outputDirectory;
-            }
-
-            this.createProject(repository, outputDirectory);
-        } catch (e) {
-            console.error(`Error: ${e}`);
+        this.parseArguments();
+        if (!this.args) {
+            return;
         }
+
+        let { projectType, outputDirectory } = this.args;
+
+        const projectConfig = this.projectConfigs[projectType];
+        this.plugins = this.getPlugins(projectConfig.plugins);
+        const repository = projectConfig.repository;
+
+        if (!outputDirectory && projectConfig.outputDirectory) {
+            // TODO change output directory to project type unless outputDirectory is not specified in config
+            outputDirectory = projectConfig.outputDirectory;
+        }
+
+        this.preprocess();
+        this.createProject(repository, outputDirectory);
+        this.postprocess(outputDirectory);
+    }
+
+    getPlugins(pluginNames) {
+        if (!pluginNames) {
+            console.info('There is no plugins');
+            return [];
+        }
+
+        if (!Array.isArray(pluginNames)) {
+            pluginNames = [pluginNames];
+        }
+        return pluginNames.map(pluginName => Plugin.newInstance(pluginName));
     }
 
     parseArguments() {
@@ -41,24 +60,50 @@ export default class Command {
         let outputDirectory = process.argv[4];
 
         if (subcommand != 'create') {
-            throw new Error(`subcommand must be create`);
+            console.error(`Error: subcommand must be create`);
+            return;
         }
 
         if (!(projectType in this.projectConfigs)) {
             const possibleProjectTypes = Object.keys(this.projectConfigs);
-            throw new Error(`${projectType} cannot be created. Possible project types are one of ${possibleProjectTypes.join(", ")}`);
+            console.error(`${projectType} cannot be created. Possible project types are one of ${possibleProjectTypes.join(", ")}`);
+            return;
         }
 
         if (outputDirectory == '.') {
-            throw new Error(`an output directory cannot be a current directory`);
+            console.error(`an output directory cannot be a current directory`);
+            return;
         }
 
-
-        return {
+        this.args = {
             subcommand: subcommand,
             projectType: projectType,
             outputDirectory: outputDirectory
         };
+    }
+
+    preprocess() {
+        if (!this.plugins.length) {
+            return;
+        }
+
+        console.info('Before create a project...');
+        this.plugins.forEach(plugin => plugin.preprocess());
+    }
+
+    postprocess(outputDirectory) {
+        if (!this.plugins.length) {
+            return;
+        }
+
+        console.info('After create a project...');
+        const currentDirectory = process.cwd();
+        try {
+            process.chdir(outputDirectory);
+            this.plugins.forEach(plugin => plugin.postprocess());
+        } finally {
+            process.chdir(currentDirectory);
+        }
     }
 
     createProject(repository, outputDirectory) {
