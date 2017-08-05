@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "setup": "npm run links; npm run build",
+    "releases": "find packages -depth 1 -exec npm --prefix {} run release \\;",
+    "build": "find packages -depth 1 -exec npm --prefix {} run build \\;",
+    "links": "find packages -depth 1 -exec npm link --prefix {} \\;",
+    "unlinks": "find packages -depth 1 -exec npm unlink --prefix {} \\;"
+  }
+}
