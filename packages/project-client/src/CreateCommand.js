@@ -4,10 +4,12 @@ import fs from 'fs';
 import jsonfile from 'jsonfile';
 import rmdir from 'rmdir';
 import process from 'process';
-import Plugin from './plugin';
+import Plugin from './Plugin';
+import program from 'commander';
 
-export default class Command {
+export default class CreateCommand {
     constructor() {
+        this.VERSION = '0.1.0';
         this.readConfig();
     }
 
@@ -20,13 +22,9 @@ export default class Command {
         }
     }
 
-    execute() {
-        this.parseArguments();
-        if (!this.args) {
-            return;
-        }
-
-        let { projectType, outputDirectory } = this.args;
+    execute(args) {
+        this.checkArguments(args);
+        let { projectType, outputDirectory } = args;
 
         const projectConfig = this.projectConfigs[projectType];
         this.plugins = this.getPlugins(projectConfig.plugins);
@@ -57,32 +55,17 @@ export default class Command {
         return pluginNames.map(pluginName => Plugin.newInstance(pluginName));
     }
 
-    parseArguments() {
-        const subcommand = process.argv[2];
-        const projectType = process.argv[3];
-        let outputDirectory = process.argv[4];
-
-        if (subcommand != 'create') {
-            console.error(`Error: subcommand must be create`);
-            return;
-        }
+    checkArguments(args) {
+        const { projectType, outputDirectory } = args;
 
         if (!(projectType in this.projectConfigs)) {
             const possibleProjectTypes = Object.keys(this.projectConfigs);
-            console.error(`${projectType} cannot be created. Possible project types are one of ${possibleProjectTypes.join(", ")}`);
-            return;
+            throw new Error(`${projectType} cannot be created. Possible project types are one of ${possibleProjectTypes.join(", ")}`);
         }
 
         if (outputDirectory == '.') {
-            console.error(`an output directory cannot be a current directory`);
-            return;
+            throw new Error(`an output directory cannot be a current directory`);
         }
-
-        this.args = {
-            subcommand: subcommand,
-            projectType: projectType,
-            outputDirectory: outputDirectory
-        };
     }
 
     preprocess() {

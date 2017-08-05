@@ -1,4 +1,8 @@
 {
+    "express": {
+        "plugins": "node",
+        "repository": "https://github.com/at-ishikawa/express-template.git"
+    },
     "react": {
         "plugins": "node",
         "repository": "https://github.com/at-ishikawa/react-template.git"

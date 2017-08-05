@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
-const Command = require('../dist/command').default;
-const command = new Command();
-command.execute();
+const program = require('commander');
+program
+    .version('0.1.0')
+    .command('create <projectType> [outputDirectory]', 'Create a project')
+    .parse(process.argv);
