@@ -1,7 +1,9 @@
-import Command from './command';
+import CreateCommand from './CreateCommand';
+import InitCommand from './InitCommand';
 import Plugin from './plugin';
 
 export {
-    Command,
+    CreateCommand,
+    InitCommand,
     Plugin
 };

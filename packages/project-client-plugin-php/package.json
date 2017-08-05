@@ -1,6 +1,6 @@
 {
   "name": "project-client-plugin-php",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The php plugin for project-client",
   "main": "dist/index.js",
   "scripts": {

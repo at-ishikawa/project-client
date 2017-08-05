@@ -1,25 +1,18 @@
-import os from 'os';
 import childProcess from 'child_process';
-import fs from 'fs';
-import jsonfile from 'jsonfile';
 import rmdir from 'rmdir';
 import process from 'process';
 import Plugin from './Plugin';
-import program from 'commander';
+import ProjectConfigRepository from "./ProjectConfigRepository";
 
 export default class CreateCommand {
     constructor() {
-        this.VERSION = '0.1.0';
         this.readConfig();
     }
 
-    readConfig() {
-        this.projectConfigs = require('../configs.json');
-        const userConfigFilePath = os.homedir() + '/.project-client.json';
-        if (fs.existsSync(userConfigFilePath)) {
-            const userConfig = jsonfile.readFileSync(userConfigFilePath);
-            this.projectConfigs = Object.assign({}, this.projectConfigs, userConfig);
-        }
+    readConfig()
+    {
+        const projectConfigRepository = new ProjectConfigRepository();
+        this.projectConfigs = projectConfigRepository.readProjectConfigs();
     }
 
     execute(args) {
